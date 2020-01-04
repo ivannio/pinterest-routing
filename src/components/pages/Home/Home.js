@@ -8,8 +8,8 @@ class Home extends React.Component {
     return (
       <div className="Home">
         <h1>Home Page</h1>
-        <Link className="btn btn-outline-warning" to="/boards/new">Create New Board</Link>
-        <Link className="btn btn-outline-info" to={`/boards/${boardId}`}>Single Board Page</Link>
+        <Link className="btn btn-outline-warning" to="/board/new">Create New Board</Link>
+        <Link className="btn btn-outline-info" to={`/board/${boardId}`}>Single Board Page</Link>
       </div>
     );
   }
