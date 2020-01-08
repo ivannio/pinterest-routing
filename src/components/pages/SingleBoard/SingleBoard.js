@@ -27,6 +27,13 @@ class SingleBoard extends React.Component {
       });
   }
 
+  deletePin = (pinId) => {
+    const { boardId } = this.props.match.params;
+    pinData.deletePin(pinId)
+      .then(() => this.getPinData(boardId))
+      .catch((error) => console.error('error deleting pin', error));
+  }
+
   render() {
     const { pins } = this.state;
     const { board } = this.state;
@@ -35,7 +42,7 @@ class SingleBoard extends React.Component {
       <h1>{board.name}</h1>
     <p className="board-name">{board.description}</p>
       <div className="SingleBoard">
-        {pins.map((pin) => <Pin key={pin.id} pin={pin} />)}
+        {pins.map((pin) => <Pin key={pin.id} pin={pin} deletePin={this.deletePin} />)}
       </div>
       </>
     );
