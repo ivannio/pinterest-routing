@@ -1,3 +1,10 @@
 .SingleBoard {
-  display: block;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+}
+
+.board-name {
+  font-size: 2em;
+  color: white;
 }
