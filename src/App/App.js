@@ -59,6 +59,7 @@ class App extends React.Component {
             <PublicRoute path="/auth" exact component={Auth} authed={authed} />
             <PrivateRoute path="/board/:boardId" exact component={SingleBoard} authed={authed} />
             <PrivateRoute path="/board/:boardId/pin/new" exact component={PinForm} authed={authed} />
+            <PrivateRoute path="/board/:boardId/edit" exact component={BoardForm} authed={authed} />
           </Switch>
         </Router>
       </div>

@@ -10,6 +10,16 @@ class BoardForm extends React.Component {
     boardDescription: '',
   }
 
+  componentDidMount() {
+    const { boardId } = this.props.match.params;
+    if (boardId) {
+      boardData.getSingleBoard(boardId)
+        .then((response) => {
+          this.setState({ boardName: response.data.name, boardDescription: response.data.description });
+        });
+    }
+  }
+
   nameChange = (e) => {
     e.preventDefault();
     this.setState({ boardName: e.target.value });
@@ -32,8 +42,22 @@ class BoardForm extends React.Component {
       .catch((error) => console.error('error posting new board', error));
   }
 
+  editBoardEvent = (e) => {
+    e.preventDefault();
+    const { boardId } = this.props.match.params;
+    const editBoard = {
+      name: this.state.boardName,
+      description: this.state.boardDescription,
+      uid: authData.getUid(),
+    };
+    boardData.updateBoard(boardId, editBoard)
+      .then(() => this.props.history.push('/'))
+      .catch((error) => console.error('error editing board', error));
+  }
+
   render() {
     const { boardName, boardDescription } = this.state;
+    const { boardId } = this.props.match.params;
     return (
       <form className="BoardForm">
         <div className="form-group">
@@ -56,7 +80,11 @@ class BoardForm extends React.Component {
             onChange={this.descriptionChange}
           />
         </div>
+        {boardId ? (
+        <button className="btn btn-primary" onClick={this.editBoardEvent}>Edit Board</button>
+        ) : (
         <button className="btn btn-primary" onClick={this.saveBoardEvent}>Save Board</button>
+        )}
       </form>
     );
   }
