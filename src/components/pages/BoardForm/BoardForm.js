@@ -29,7 +29,7 @@ class BoardForm extends React.Component {
     };
     boardData.saveBoard(newBoard)
       .then(() => this.props.history.push('/'))
-      .catch((error) => console.error('error posting new board', error))
+      .catch((error) => console.error('error posting new board', error));
   }
 
   render() {
