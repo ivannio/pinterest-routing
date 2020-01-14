@@ -10,6 +10,18 @@ state = {
   pinImageUrl: '',
 }
 
+componentDidMount() {
+  const { pinId } = this.props.match.params;
+  if (pinId) {
+    pinData.getSinglePin(pinId)
+      .then((response) => {
+        const pin = response.data;
+        this.setState({ pinTitle: pin.title, pinImageUrl: pin.imageUrl });
+      })
+      .catch((error) => console.error('error getting a pin', error));
+  }
+}
+
 pinTitleChange = (e) => {
   e.preventDefault();
   this.setState({ pinTitle: e.target.value });
@@ -34,8 +46,23 @@ savePinEvent = (e) => {
     .catch((error) => console.error('error posting new pin', error));
 }
 
+editPinEvent = (e) => {
+  e.preventDefault();
+  const { boardId, pinId } = this.props.match.params;
+  const editedPin = {
+    title: this.state.pinTitle,
+    imageUrl: this.state.pinImageUrl,
+    uid: authData.getUid(),
+    boardId,
+  };
+  pinData.editPin(pinId, editedPin)
+    .then(() => this.props.history.push(`/board/${boardId}`))
+    .catch((error) => console.error('error updating pin', error));
+}
+
 render() {
   const { pinTitle, pinImageUrl } = this.state;
+  const { pinId } = this.props.match.params;
   return (
       <form className="PinForm">
         <div className="form-group">
@@ -58,8 +85,12 @@ render() {
             onChange={this.pinImageUrlChange}
           />
         </div>
-        <button className="btn btn-primary" onClick={this.savePinEvent}>Save Pin</button>
-      </form>
+        {pinId ? (
+        <button className="btn btn-warning" onClick={this.editPinEvent}>Edit Pin</button>
+        ) : (
+          <button className="btn btn-primary" onClick={this.savePinEvent}>Save Pin</button>
+        )}
+        </form>
   );
 }
 }
