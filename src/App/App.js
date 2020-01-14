@@ -14,6 +14,7 @@ import Auth from '../components/pages/Auth/Auth';
 import Home from '../components/pages/Home/Home';
 import BoardForm from '../components/pages/BoardForm/BoardForm';
 import SingleBoard from '../components/pages/SingleBoard/SingleBoard';
+import PinForm from '../components/pages/PinForm/PinForm';
 import './App.scss';
 
 const PublicRoute = ({ component: Component, authed, ...rest }) => {
@@ -57,6 +58,7 @@ class App extends React.Component {
             <PrivateRoute path="/board/new" exact component={BoardForm} authed={authed} />
             <PublicRoute path="/auth" exact component={Auth} authed={authed} />
             <PrivateRoute path="/board/:boardId" exact component={SingleBoard} authed={authed} />
+            <PrivateRoute path="/board/:boardId/pin/new" exact component={PinForm} authed={authed} />
           </Switch>
         </Router>
       </div>
